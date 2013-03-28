@@ -22,6 +22,8 @@ Google Analytics Popular Posts has the following features:<br>
 - Can preview in the admin option menu.<br>
 - Can view the popular posts to be filled in the `&#060;&#063;php GoogleAnalyticsPopularPosts_view(); &#063;&#062;` custom php code. <br>
 - Can view the popular posts with the `[GAPP_VIEW]` shortcode. <br>
+- Can view the Popular posts last seven days `[Last_Seven_Days]` shortcode. <br>
+- Can view the Popular posts last one year `[Last_One_Year]` shortcode. <br>
 - Can enable or disable the cache.<br>
 - Can enable or disable the custom style sheet. Also applies to the preview.<br>
 - Skinnable via CSS. <br>
