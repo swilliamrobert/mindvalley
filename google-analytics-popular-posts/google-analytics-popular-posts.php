@@ -428,4 +428,177 @@ function GAPP_shortcode() {
 }
 add_shortcode('GAPP_VIEW', 'GAPP_shortcode');
 
+//************************************************************************************
+// Last 7 Days Post
+//************************************************************************************
+function last_Sevendays( $atts ){
+  	$GAPP_usr = get_option('GoogleAnalyticsPopularPosts_username');
+	$GAPP_pwd = get_option('GoogleAnalyticsPopularPosts_password');
+	$GAPP_pID = get_option('GoogleAnalyticsPopularPosts_profileID');
+	$GAPP_mRs = '10';
+	$GAPP_SDs = '7';
+	$GAPP_filter = get_option('GoogleAnalyticsPopularPosts_filter');
+	$GAPP_dDisp = get_option('GoogleAnalyticsPopularPosts_dateDispEnable');
+	$GAPP_pDisp = get_option('GoogleAnalyticsPopularPosts_postDateEnable');
+	$GAPP_cView = get_option('GoogleAnalyticsPopularPosts_contentsViewEnable');
+	if(is_numeric($GAPP_SDs)) {
+		$todays_year = date("Y");
+		$todays_month = date("m");
+		$todays_day = date("d");
+		$date = "$todays_year-$todays_month-$todays_day";
+		$newdate = strtotime ( "-$GAPP_SDs day" , strtotime ( $date ) ) ;
+		$newdate = date ( 'Y-m-d' , $newdate );
+		$From = $newdate;
+	}
+	define('ga_email', $GAPP_usr);
+	define('ga_password', $GAPP_pwd);
+	define('ga_profile_id', $GAPP_pID);
+	if(!ga_email || !ga_password || !ga_profile_id) {
+		$output = __('<b>Google Analytics Popular Posts Error :</b><br />Please enter your account details in the options page.', 'google-analytics-popular-posts');
+		return $output;
+	}
+	$GAPP_filter_fixed = 'ga:pagePath=~^/';
+	require 'gapi.class.php';
+	$ga = new gapi(ga_email, ga_password);
+	$ga->requestReportData(ga_profile_id, array('hostname', 'pagePath'), array('visits'), array('-visits'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
+	if ($GAPP_dDisp == "yes") {
+		$output = '<p class="popular_stats_date">'.$From.' ～ '.$date.'</p>'."\n";
+	}
+	foreach($ga->getResults() as $result) :
+		$getHostname = $result->getHostname();
+		$getPagepath = $result->getPagepath();
+		$postPagepath = 'http://'.$getHostname.$getPagepath;
+		$getPostID = url_to_postid($postPagepath);
+		if ($getPostID <= 0) {
+			$titleStr = $postPagepath;
+			$output .= '<ul>'."\n";
+			$output .= '<li>'."\n";
+			$output .= '<div class="popular_post"><a href='.$postPagepath.'>'.$titleStr.'</a></div>'."\n";
+			$output .= '</li>'."\n";
+			$output .= '</ul>'."\n";
+		}
+		else {
+			$titleStr = get_the_title($getPostID);
+			$post = get_post($getPostID);
+			$dateStr = mysql2date('Y-m-d', $post->post_date);
+			$contentStr = strip_tags(mb_substr($post->post_content, 0, 60));
+			$output .= '<ul>'."\n";
+			$output .= '<li>'."\n";
+			$output .= '<div class="popular_post"><a href='.$postPagepath.'>'.$titleStr.'</a><br />'."\n";
+			if ($GAPP_pDisp == "yes" and $GAPP_cView == "yes") {
+				$output .= '<div class="popular_post_date">'.$dateStr.'<br /></div>'."\n";
+				$output .= '<div class="popular_post_contents">'.$contentStr.' ...'.'</div>'."\n";
+			}
+			elseif ($GAPP_pDisp == "yes" and $GAPP_cView == "no") {
+				$output .= '<div class="popular_post_date">'.$dateStr.'<br /></div>'."\n";
+			}
+			elseif ($GAPP_pDisp == "no" and $GAPP_cView == "yes") {
+				$output .= '<div class="popular_post_contents">'.$contentStr.' ...'.'</div>'."\n";
+			}
+			else {
+			}
+			$output .= '</div>'."\n";
+			$output .= '</li>'."\n";
+			$output .= '</ul>'."\n";
+		}
+	endforeach;
+
+ return $output ;
+
+}
+
+//***********************************************
+// Implementation of shortcode for Last 7 days
+//***********************************************
+add_shortcode( 'Last_Seven_Days', 'last_Sevendays' );
+
+
+
+//************************************************************************************
+// Last One Year Post
+//************************************************************************************
+function last_Oneyear( $atts ){
+  	$GAPP_usr = get_option('GoogleAnalyticsPopularPosts_username');
+	$GAPP_pwd = get_option('GoogleAnalyticsPopularPosts_password');
+	$GAPP_pID = get_option('GoogleAnalyticsPopularPosts_profileID');
+	$GAPP_mRs = '10';
+	$GAPP_SDs = '365';
+	$GAPP_filter = get_option('GoogleAnalyticsPopularPosts_filter');
+	$GAPP_dDisp = get_option('GoogleAnalyticsPopularPosts_dateDispEnable');
+	$GAPP_pDisp = get_option('GoogleAnalyticsPopularPosts_postDateEnable');
+	$GAPP_cView = get_option('GoogleAnalyticsPopularPosts_contentsViewEnable');
+	if(is_numeric($GAPP_SDs)) {
+		$todays_year = date("Y");
+		$todays_month = date("m");
+		$todays_day = date("d");
+		$date = "$todays_year-$todays_month-$todays_day";
+		$newdate = strtotime ( "-$GAPP_SDs day" , strtotime ( $date ) ) ;
+		$newdate = date ( 'Y-m-d' , $newdate );
+		$From = $newdate;
+	}
+	define('ga_email', $GAPP_usr);
+	define('ga_password', $GAPP_pwd);
+	define('ga_profile_id', $GAPP_pID);
+	if(!ga_email || !ga_password || !ga_profile_id) {
+		$output = __('<b>Google Analytics Popular Posts Error :</b><br />Please enter your account details in the options page.', 'google-analytics-popular-posts');
+		return $output;
+	}
+	$GAPP_filter_fixed = 'ga:pagePath=~^/';
+	require 'gapi.class.php';
+	$ga = new gapi(ga_email, ga_password);
+	$ga->requestReportData(ga_profile_id, array('hostname', 'pagePath'), array('visits'), array('-visits'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
+	if ($GAPP_dDisp == "yes") {
+		$output = '<p class="popular_stats_date">'.$From.' ～ '.$date.'</p>'."\n";
+	}
+	foreach($ga->getResults() as $result) :
+		$getHostname = $result->getHostname();
+		$getPagepath = $result->getPagepath();
+		$postPagepath = 'http://'.$getHostname.$getPagepath;
+		$getPostID = url_to_postid($postPagepath);
+		if ($getPostID <= 0) {
+			$titleStr = $postPagepath;
+			$output .= '<ul>'."\n";
+			$output .= '<li>'."\n";
+			$output .= '<div class="popular_post"><a href='.$postPagepath.'>'.$titleStr.'</a></div>'."\n";
+			$output .= '</li>'."\n";
+			$output .= '</ul>'."\n";
+		}
+		else {
+			$titleStr = get_the_title($getPostID);
+			$post = get_post($getPostID);
+			$dateStr = mysql2date('Y-m-d', $post->post_date);
+			$contentStr = strip_tags(mb_substr($post->post_content, 0, 60));
+			$output .= '<ul>'."\n";
+			$output .= '<li>'."\n";
+			$output .= '<div class="popular_post"><a href='.$postPagepath.'>'.$titleStr.'</a><br />'."\n";
+			if ($GAPP_pDisp == "yes" and $GAPP_cView == "yes") {
+				$output .= '<div class="popular_post_date">'.$dateStr.'<br /></div>'."\n";
+				$output .= '<div class="popular_post_contents">'.$contentStr.' ...'.'</div>'."\n";
+			}
+			elseif ($GAPP_pDisp == "yes" and $GAPP_cView == "no") {
+				$output .= '<div class="popular_post_date">'.$dateStr.'<br /></div>'."\n";
+			}
+			elseif ($GAPP_pDisp == "no" and $GAPP_cView == "yes") {
+				$output .= '<div class="popular_post_contents">'.$contentStr.' ...'.'</div>'."\n";
+			}
+			else {
+			}
+			$output .= '</div>'."\n";
+			$output .= '</li>'."\n";
+			$output .= '</ul>'."\n";
+		}
+	endforeach;
+
+ return $output ;
+
+}
+
+//***********************************************
+// Implementation of shortcode for Last One Year
+//***********************************************
+add_shortcode( 'Last_One_Year', 'last_Oneyear' );
+
+
+
+
 ?>
