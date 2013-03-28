@@ -4,25 +4,8 @@ Plugin Name: Google Analytics Popular Posts
 Plugin URI: http://wordpress.org/extend/plugins/google-analytics-popular-posts/
 Description: This plugin uses Google Analytics API to fetch data from your analytics account and displays popular posts in the widget.
 Version: 1.1.8
-Author: koichiyaima
-Author URI: http://yaima.sakuraweb.com/
 */
-/*  Copyright 2011 Yaima surf (email : yaima-surf@yaima.sakuraweb.com)
 
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public Licen se as published by
-	the Free Software Foundation; either version 2 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-*/
 
 // GoogleAnalyticsPopularPosts Class
 class GoogleAnalyticsPopularPosts extends WP_Widget {
