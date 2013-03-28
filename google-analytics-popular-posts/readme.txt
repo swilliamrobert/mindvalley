@@ -43,3 +43,7 @@ For more information, visit the [Google Analytics Popular Posts plugin page](htt
 - Register your WordPress website URL.
 - After register your website, you can get Profile ID from Profile Settings.
 - In WordPress Admin Panel, Go to the settings and choose Google Analytics Popular Post link and Register your Website Profile ID.
+
+== Display Popular Post ==
+
+- You can see the most popular post in 'Popular Post' tab in Main website.
