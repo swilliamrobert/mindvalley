@@ -4,8 +4,25 @@ Plugin Name: Google Analytics Popular Posts
 Plugin URI: http://wordpress.org/extend/plugins/google-analytics-popular-posts/
 Description: This plugin uses Google Analytics API to fetch data from your analytics account and displays popular posts in the widget.
 Version: 1.1.8
+Author: koichiyaima
+Author URI: http://yaima.sakuraweb.com/
 */
+/*  Copyright 2011 Yaima surf (email : yaima-surf@yaima.sakuraweb.com)
 
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public Licen se as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+*/
 
 // GoogleAnalyticsPopularPosts Class
 class GoogleAnalyticsPopularPosts extends WP_Widget {
@@ -340,9 +357,9 @@ function GoogleAnalyticsPopularPosts_widget_output() {
 	$GAPP_filter_fixed = 'ga:pagePath=~^/';
 	require 'gapi.class.php';
 	$ga = new gapi(ga_email, ga_password);
-	$ga->requestReportData(ga_profile_id, array('hostname', 'pagePath'), array('visits'), array('-visits'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
+       $ga->requestReportData(ga_profile_id, array('hostname','pagePath'), array('pageviews'), array('-pageviews'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
 	if ($GAPP_dDisp == "yes") {
-		$output = '<p class="popular_stats_date">'.$From.' ～ '.$date.'</p>'."\n";
+		$output = '<p class="popular_stats_date">'.$From.' ï½ž '.$date.'</p>'."\n";
 	}
 	foreach($ga->getResults() as $result) :
 		$getHostname = $result->getHostname();
@@ -428,6 +445,7 @@ function GAPP_shortcode() {
 }
 add_shortcode('GAPP_VIEW', 'GAPP_shortcode');
 
+
 //************************************************************************************
 // Last 7 Days Post
 //************************************************************************************
@@ -460,9 +478,9 @@ function last_Sevendays( $atts ){
 	$GAPP_filter_fixed = 'ga:pagePath=~^/';
 	require 'gapi.class.php';
 	$ga = new gapi(ga_email, ga_password);
-	$ga->requestReportData(ga_profile_id, array('hostname', 'pagePath'), array('visits'), array('-visits'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
+	 $ga->requestReportData(ga_profile_id, array('hostname','pagePath'), array('pageviews'), array('-pageviews'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
 	if ($GAPP_dDisp == "yes") {
-		$output = '<p class="popular_stats_date">'.$From.' ～ '.$date.'</p>'."\n";
+		$output = '<p class="popular_stats_date">'.$From.' ï½ž '.$date.'</p>'."\n";
 	}
 	foreach($ga->getResults() as $result) :
 		$getHostname = $result->getHostname();
@@ -546,9 +564,9 @@ function last_Oneyear( $atts ){
 	$GAPP_filter_fixed = 'ga:pagePath=~^/';
 	require 'gapi.class.php';
 	$ga = new gapi(ga_email, ga_password);
-	$ga->requestReportData(ga_profile_id, array('hostname', 'pagePath'), array('visits'), array('-visits'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
+	 $ga->requestReportData(ga_profile_id, array('hostname','pagePath'), array('pageviews'), array('-pageviews'), $filter=$GAPP_filter_fixed.$GAPP_filter, $start_date=$From, $end_date=$date, $start_index=1, $max_results=$GAPP_mRs);
 	if ($GAPP_dDisp == "yes") {
-		$output = '<p class="popular_stats_date">'.$From.' ～ '.$date.'</p>'."\n";
+		$output = '<p class="popular_stats_date">'.$From.' ï½ž '.$date.'</p>'."\n";
 	}
 	foreach($ga->getResults() as $result) :
 		$getHostname = $result->getHostname();
@@ -597,8 +615,6 @@ function last_Oneyear( $atts ){
 // Implementation of shortcode for Last One Year
 //***********************************************
 add_shortcode( 'Last_One_Year', 'last_Oneyear' );
-
-
 
 
 ?>
